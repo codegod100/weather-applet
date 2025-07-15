@@ -8,10 +8,11 @@ pub const APP_ID: &str = "io.github.cosmic-utils.cosmic-ext-applet-weather";
 pub const SUN_ICON: &str = "io.github.cosmic-utils.cosmic-ext-applet-weather-sun-symbolic";
 pub const MOON_ICON: &str = "io.github.cosmic-utils.cosmic-ext-applet-weather-moon-symbolic";
 
-#[derive(Default, Debug, CosmicConfigEntry)]
+#[derive(Default, Debug, Clone, CosmicConfigEntry)]
 pub struct WeatherConfig {
     pub latitude: f64,
     pub longitude: f64,
+    pub use_fahrenheit: bool,
 }
 
 impl WeatherConfig {
