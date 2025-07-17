@@ -28,31 +28,36 @@ sudo just install
 
 ## Configuration
 
-The applet currently does not have a graphical interface for setting the coordinates to fetch and display the temperature for a specific location. To set the current location, specify the latitude and longitude in the configuration files.
+The applet includes a graphical configuration interface accessible by clicking on the weather icon in the panel. This opens a settings popup with multiple location options:
 
+### Location Configuration Options
 
-_Use IP-API web service (https://ip-api.com/docs/api:json) to retrieve approximate coordinates or alternatively, use mapping platforms like Google Maps to obtain accurate latitude and longitude._
+**1. City Search with Fuzzy Matching**
+- Type a city name in the "Search City" field
+- Get real-time fuzzy-matched results from OpenStreetMap's Nominatim API
+- Click on any result to automatically populate coordinates
+- Examples: "new york", "portland", "tokyo"
 
+**2. Automatic Location Detection**
+- Click "Get Current Location" to automatically detect your location using IP geolocation
+- Uses your public IP address to determine approximate coordinates
+- Displays detected city and region information
 
-```sh
-cd ~/.config/cosmic/io.github.cosmic-utils.cosmic-ext-applet-weather/v1/
-```
+**3. Manual Coordinate Entry**
+- Enter latitude and longitude values directly
+- Useful for precise location specification
+- Coordinates are validated when saved
 
-Create and add latitude in the `latitude` file:
+### Temperature Unit
+- Toggle between Celsius and Fahrenheit using the unit switcher
+- Setting is saved and persists between app restarts
 
-```
-touch latitude
-echo "12.123163" > latitude
-```
+### Saving Configuration
+- Click "Save" to apply your location and temperature unit settings
+- The weather data refreshes automatically every minute
+- Configuration is stored in the system's configuration directory
 
-Similarly for longitude:
-
-```
-touch longitude
-echo "23.811234" > longitude
-```
-
-The applet refreshes every minute, and the new coordinates will be used only at that time. As a workaround, simply remove and re-add the applet in the panel settings for an instant refresh.
+All settings are saved automatically and persist between application restarts.
 
 ## Uninstall
 
