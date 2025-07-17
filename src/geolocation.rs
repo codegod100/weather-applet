@@ -42,7 +42,7 @@ pub async fn get_current_location() -> Result<IpGeolocation, reqwest::Error> {
     
     let response = reqwest::Client::new()
         .get(url)
-        .header(reqwest::header::USER_AGENT, "cosmic-ext-applet-weather")
+        .header(reqwest::header::USER_AGENT, "sh.tangled.one.weird.nandi.weather-applet")
         .send()
         .await?;
     
@@ -62,7 +62,7 @@ pub async fn search_cities(query: String) -> Result<Vec<CitySearchResult>, reqwe
     
     let response = reqwest::Client::new()
         .get(&url)
-        .header(reqwest::header::USER_AGENT, "cosmic-ext-applet-weather")
+        .header(reqwest::header::USER_AGENT, "sh.tangled.one.weird.nandi.weather-applet")
         .send()
         .await?;
     

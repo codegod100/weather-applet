@@ -1,0 +1,49 @@
+app-id: sh.tangled.one.weird.nandi.weather-applet
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+command: cosmic-ext-applet-weather
+finish-args:
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  - --filesystem=xdg-config/cosmic:create
+  - --talk-name=org.freedesktop.portal.Desktop
+  - --talk-name=org.freedesktop.portal.Location
+build-options:
+  append-path: /usr/lib/sdk/rust-stable/bin
+  env:
+    CARGO_HOME: /run/build/cosmic-ext-applet-weather/cargo
+    RUSTFLAGS: -C link-arg=-Wl,-z,relro,-z,now
+modules:
+  - name: libxkbcommon
+    buildsystem: meson
+    config-opts:
+      - -Denable-docs=false
+      - -Denable-wayland=true
+      - -Denable-x11=true
+    sources:
+      - type: archive
+        url: https://github.com/xkbcommon/libxkbcommon/archive/refs/tags/xkbcommon-1.6.0.tar.gz
+        sha256: 4aa6c1cad7dce1238d6f48b6729f1998c7e3f0667a21100d5268c91a5830ad7b
+  
+  - name: cosmic-ext-applet-weather
+    buildsystem: simple
+    build-options:
+      env:
+        CARGO_HOME: /run/build/cosmic-ext-applet-weather/cargo
+    build-commands:
+      - cargo --offline fetch --manifest-path Cargo.toml --verbose
+      - cargo --offline build --release --verbose
+      - install -Dm755 ./target/release/cosmic-ext-applet-weather -t /app/bin/
+      - install -Dm644 ./data/cosmic-ext-applet-weather.desktop -t /app/share/applications/
+      - install -Dm644 ./data/cosmic-ext-applet-weather.svg -t /app/share/icons/hicolor/scalable/apps/
+      - install -Dm644 ./data/cosmic-ext-applet-weather-sun.svg -t /app/share/icons/hicolor/scalable/apps/
+      - install -Dm644 ./data/cosmic-ext-applet-weather-moon.svg -t /app/share/icons/hicolor/scalable/apps/
+    sources:
+      - type: dir
+        path: .
+      - cargo-sources.json
