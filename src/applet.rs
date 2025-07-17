@@ -8,6 +8,7 @@ use cosmic::cosmic_config::CosmicConfigEntry;
 use crate::{
     config::{APP_ID, MOON_ICON, SUN_ICON, WeatherConfig},
     weather::get_location_forecast,
+    geolocation::{get_current_location, search_cities, CitySearchResult},
 };
 
 pub fn run() -> cosmic::iced::Result {
@@ -22,6 +23,9 @@ struct Weather {
     latitude_input: String,
     longitude_input: String,
     use_fahrenheit: bool,
+    location_status: String,
+    city_search_input: String,
+    city_search_results: Vec<CitySearchResult>,
 }
 
 impl Weather {
@@ -66,6 +70,11 @@ pub enum Message {
     ToggleTemperatureUnit(bool),
     SaveConfig,
     ClosePopup,
+    GetCurrentLocation,
+    LocationFound(String, f64, f64),
+    CitySearchInput(String),
+    CitySearchResults(Vec<CitySearchResult>),
+    SelectCity(CitySearchResult),
 }
 
 impl cosmic::Application for Weather {
@@ -90,6 +99,9 @@ impl cosmic::Application for Weather {
                 latitude_input: config.latitude.to_string(),
                 longitude_input: config.longitude.to_string(),
                 use_fahrenheit: config.use_fahrenheit,
+                location_status: "Enter coordinates manually or detect automatically".to_string(),
+                city_search_input: String::new(),
+                city_search_results: Vec::new(),
             },
             cosmic::task::message(Message::Tick),
         )
@@ -126,7 +138,7 @@ impl cosmic::Application for Weather {
                         let popup_settings = self.core.applet.get_popup_settings(
                             main_window_id,
                             new_id,
-                            Some((300, 200)),
+                            Some((350, 400)),
                             None,
                             None
                         );
@@ -162,6 +174,65 @@ impl cosmic::Application for Weather {
                     tasks.push(popup::destroy_popup(popup_id));
                 }
             }
+            Message::GetCurrentLocation => {
+                self.location_status = "Getting location...".to_string();
+                tasks.push(cosmic::Task::perform(
+                    get_current_location(),
+                    |result| match result {
+                        Ok(location) => {
+                            cosmic::action::Action::App(Message::LocationFound(
+                                format!("{}, {}", location.city, location.region),
+                                location.latitude,
+                                location.longitude,
+                            ))
+                        }
+                        Err(error) => {
+                            tracing::error!("Failed to get location: {error:?}");
+                            cosmic::action::Action::App(Message::LocationFound(
+                                "Location detection failed".to_string(),
+                                0.0,
+                                0.0,
+                            ))
+                        }
+                    },
+                ));
+            }
+            Message::LocationFound(city, lat, lon) => {
+                if lat != 0.0 && lon != 0.0 {
+                    self.latitude_input = lat.to_string();
+                    self.longitude_input = lon.to_string();
+                    self.location_status = format!("Found: {}", city);
+                } else {
+                    self.location_status = city;
+                }
+            }
+            Message::CitySearchInput(query) => {
+                self.city_search_input = query.clone();
+                if !query.trim().is_empty() {
+                    tasks.push(cosmic::Task::perform(
+                        search_cities(query.clone()),
+                        |result| match result {
+                            Ok(results) => cosmic::action::Action::App(Message::CitySearchResults(results)),
+                            Err(error) => {
+                                tracing::error!("City search failed: {error:?}");
+                                cosmic::action::Action::App(Message::CitySearchResults(Vec::new()))
+                            }
+                        },
+                    ));
+                } else {
+                    self.city_search_results.clear();
+                }
+            }
+            Message::CitySearchResults(results) => {
+                self.city_search_results = results;
+            }
+            Message::SelectCity(city) => {
+                self.latitude_input = city.latitude.to_string();
+                self.longitude_input = city.longitude.to_string();
+                self.location_status = format!("Selected: {}", city.display_name);
+                self.city_search_input.clear();
+                self.city_search_results.clear();
+            }
         }
 
         cosmic::Task::batch(tasks)
@@ -173,8 +244,31 @@ impl cosmic::Application for Weather {
 
     fn view_window(&self, id: window::Id) -> cosmic::Element<Message> {
         if Some(id) == self.popup {
-            let content = cosmic::widget::column()
+            let mut content = cosmic::widget::column()
                 .push(cosmic::widget::text("Weather Location Settings").size(16))
+                .push(
+                    cosmic::widget::row()
+                        .push(cosmic::widget::text("Search City:").width(cosmic::iced::Length::Fixed(80.0)))
+                        .push(cosmic::widget::text_input("Enter city name", &self.city_search_input)
+                            .on_input(Message::CitySearchInput))
+                        .spacing(10)
+                        .align_y(cosmic::iced::Alignment::Center)
+                );
+
+            if !self.city_search_results.is_empty() {
+                let mut results_column = cosmic::widget::column().spacing(5);
+                for city in &self.city_search_results {
+                    let city_clone = city.clone();
+                    results_column = results_column.push(
+                        cosmic::widget::button::standard(&city.display_name)
+                            .on_press(Message::SelectCity(city_clone))
+                            .width(cosmic::iced::Length::Fill)
+                    );
+                }
+                content = content.push(results_column);
+            }
+
+            content = content
                 .push(
                     cosmic::widget::row()
                         .push(cosmic::widget::text("Latitude:").width(cosmic::iced::Length::Fixed(80.0)))
@@ -200,6 +294,13 @@ impl cosmic::Application for Weather {
                         .spacing(10)
                         .align_y(cosmic::iced::Alignment::Center)
                 )
+                .push(
+                    cosmic::widget::row()
+                        .push(cosmic::widget::button::standard("Get Current Location")
+                            .on_press(Message::GetCurrentLocation))
+                        .spacing(10)
+                )
+                .push(cosmic::widget::text(&self.location_status).size(12))
                 .push(
                     cosmic::widget::row()
                         .push(cosmic::widget::button::standard("Cancel")

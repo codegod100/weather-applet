@@ -19,7 +19,10 @@ reqwest = { version = "0.12.20", default-features = false, features = [
 	"json",
 	"rustls-tls",
 ] }
+serde_json = "1.0"
 serde = "1.0.219"
+fuzzy-matcher = "0.3"
+urlencoding = "2.1"
 serde_derive = "1.0.219"
 tracing = { version = "0.1.41", default-features = false, features = ["log"] }
 tracing-subscriber = { version = "0.3.19", default-features = false, features = [
