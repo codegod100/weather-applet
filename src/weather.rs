@@ -95,7 +95,7 @@ pub async fn get_location_forecast(latitude: f64, longitude: f64) -> Result<f64,
 
     let request_builder = reqwest::Client::new().get(url).header(
         header::USER_AGENT,
-        "sh.tangled.one.weird.nandi.weather-applet",
+        "one.weird.nandi.weather-applet",
     );
 
     let response = request_builder.send().await?;

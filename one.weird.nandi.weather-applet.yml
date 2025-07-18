@@ -1,6 +1,6 @@
-app-id: sh.tangled.one.weird.nandi.weather-applet
+app-id: one.weird.nandi.weather-applet
 runtime: org.freedesktop.Platform
-runtime-version: '23.08'
+runtime-version: "23.08"
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
@@ -29,7 +29,7 @@ modules:
       - type: archive
         url: https://github.com/xkbcommon/libxkbcommon/archive/refs/tags/xkbcommon-1.6.0.tar.gz
         sha256: 4aa6c1cad7dce1238d6f48b6729f1998c7e3f0667a21100d5268c91a5830ad7b
-  
+
   - name: cosmic-ext-applet-weather
     buildsystem: simple
     build-options:

@@ -36,13 +36,13 @@ This creates `cargo-sources.json` which contains all the Rust dependencies neede
 
 ```bash
 # Build the application
-flatpak-builder --force-clean build-dir sh.tangled.one.weird.nandi.weather-applet.yml
+flatpak-builder --force-clean build-dir one.weird.nandi.weather-applet.yml
 
 # Install locally for testing
-flatpak-builder --user --install --force-clean build-dir sh.tangled.one.weird.nandi.weather-applet.yml
+flatpak-builder --user --install --force-clean build-dir one.weird.nandi.weather-applet.yml
 
 # Run the application
-flatpak run sh.tangled.one.weird.nandi.weather-applet
+flatpak run one.weird.nandi.weather-applet
 ```
 
 ## Create a Flatpak Bundle
@@ -50,7 +50,7 @@ flatpak run sh.tangled.one.weird.nandi.weather-applet
 To create a distributable bundle:
 
 ```bash
-flatpak build-bundle ~/.local/share/flatpak/repo weather-applet.flatpak sh.tangled.one.weird.nandi.weather-applet
+flatpak build-bundle ~/.local/share/flatpak/repo weather-applet.flatpak one.weird.nandi.weather-applet
 ```
 
 ## Notes

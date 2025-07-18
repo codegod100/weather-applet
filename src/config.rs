@@ -1,12 +1,12 @@
 use cosmic::cosmic_config::{
-    self, Config, CosmicConfigEntry, cosmic_config_derive::CosmicConfigEntry,
+    self, cosmic_config_derive::CosmicConfigEntry, Config, CosmicConfigEntry,
 };
 
 const CONFIG_VERSION: u64 = 1;
 
-pub const APP_ID: &str = "sh.tangled.one.weird.nandi.weather-applet";
-pub const SUN_ICON: &str = "sh.tangled.one.weird.nandi.weather-applet-sun-symbolic";
-pub const MOON_ICON: &str = "sh.tangled.one.weird.nandi.weather-applet-moon-symbolic";
+pub const APP_ID: &str = "one.weird.nandi.weather-applet";
+pub const SUN_ICON: &str = "one.weird.nandi.weather-applet-sun-symbolic";
+pub const MOON_ICON: &str = "one.weird.nandi.weather-applet-moon-symbolic";
 
 #[derive(Default, Debug, Clone, CosmicConfigEntry)]
 pub struct WeatherConfig {
