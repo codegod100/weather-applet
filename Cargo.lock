@@ -948,22 +948,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cosmic-ext-applet-weather"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "fuzzy-matcher",
- "libcosmic",
- "reqwest",
- "serde",
- "serde_derive",
- "serde_json",
- "tracing",
- "tracing-subscriber",
- "urlencoding",
-]
-
-[[package]]
 name = "cosmic-freedesktop-icons"
 version = "0.3.0"
 source = "git+https://github.com/pop-os/freedesktop-icons#8a05c322c482ff3c69cf34bacfee98907ac45307"
@@ -1042,6 +1026,22 @@ dependencies = [
  "serde",
  "serde_json",
  "thiserror 2.0.12",
+]
+
+[[package]]
+name = "cosmic-weather-applet"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "fuzzy-matcher",
+ "libcosmic",
+ "reqwest",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "tracing",
+ "tracing-subscriber",
+ "urlencoding",
 ]
 
 [[package]]

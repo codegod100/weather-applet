@@ -6,5 +6,5 @@ fn main() -> cosmic::iced::Result {
 
     tracing::info!("Starting weather applet");
 
-    cosmic_ext_applet_weather::run()
+    cosmic_weather_applet::run()
 }
