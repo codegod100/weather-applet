@@ -3,8 +3,8 @@ default: build
 build:
 	cargo build --release
 
-export NAME := 'cosmic-ext-applet-weather'
-export APPID := 'io.github.cosmic-utils.' + NAME
+export NAME := 'one.weird.nandi.weather-applet'
+export APPID := NAME
 
 cargo-target-dir := env('CARGO_TARGET_DIR', 'target')
 bin-src := cargo-target-dir / 'release' / NAME
@@ -23,10 +23,10 @@ applet-moon-icon-dst := share-dst / 'icons/hicolor/scalable/apps' /APPID + '-moo
 
 install:
 	install -Dm0755 {{ bin-src }} {{ bin-dst }}
-	install -Dm0644 data/cosmic-ext-applet-weather.svg {{ icon-dst }}
-	install -Dm0644 data/cosmic-ext-applet-weather.desktop {{ desktop-dst }}
-	install -Dm0644 data/cosmic-ext-applet-weather-sun.svg {{ applet-sun-icon-dst }}
-	install -Dm0644 data/cosmic-ext-applet-weather-moon.svg {{ applet-moon-icon-dst }}
+	install -Dm0644 data/one.weird.nandi.weather-applet.svg {{ icon-dst }}
+	install -Dm0644 data/one.weird.nandi.weather-applet.desktop {{ desktop-dst }}
+	install -Dm0644 data/one.weird.nandi.weather-applet-sun.svg {{ applet-sun-icon-dst }}
+	install -Dm0644 data/one.weird.nandi.weather-applet-moon.svg {{ applet-moon-icon-dst }}
 
 uninstall:
 	rm {{ bin-dst }}

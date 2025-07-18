@@ -4,8 +4,8 @@ Keywords=Cosmic;Iced;
 Categories=Cosmic;Iced;
 
 Type=Application
-Icon=io.github.cosmic-utils.cosmic-ext-applet-weather-symbolic
-Exec=cosmic-ext-applet-weather
+Icon=one.weird.nandi.weather-applet-symbolic
+Exec=one.weird.nandi.weather-applet
 Terminal=false
 StartupNotify=true
 NoDisplay=true
