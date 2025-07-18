@@ -1,5 +1,5 @@
 [package]
-name = "one.weird.nandi.weather-applet"
+name = "cosmic-weather-applet"
 version = "0.1.0"
 edition = "2024"
 license = "GPL-3.0"
