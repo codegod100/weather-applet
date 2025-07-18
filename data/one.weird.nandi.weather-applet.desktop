@@ -5,7 +5,7 @@ Categories=Cosmic;Iced;
 
 Type=Application
 Icon=one.weird.nandi.weather-applet-symbolic
-Exec=one.weird.nandi.weather-applet
+Exec=cosmic-weather-applet
 Terminal=false
 StartupNotify=true
 NoDisplay=true
