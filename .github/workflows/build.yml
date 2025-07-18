@@ -12,14 +12,12 @@ jobs:
       options: --privileged
     steps:
       - uses: actions/checkout@v4
-      - name: Install Rust toolchain
-        run: |
-          curl https://sh.rustup.rs -sSf | sh -s -- -y
-          source $HOME/.cargo/env
-      - name: Install Rust nightly
-        run: rustup toolchain install nightly
-      - name: Set nightly as default
-        run: rustup default nightly
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+          components: rustfmt, clippy
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: weather-applet.flatpak
