@@ -12,6 +12,10 @@ jobs:
       options: --privileged
     steps:
       - uses: actions/checkout@v4
+      - name: Install Rust nightly
+        run: rustup toolchain install nightly
+      - name: Set nightly as default
+        run: rustup default nightly
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: weather-applet.flatpak
