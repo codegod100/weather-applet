@@ -3,7 +3,7 @@ runtime: org.freedesktop.Platform
 runtime-version: "23.08"
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.rust-stable
+  - org.freedesktop.Sdk.Extension.rust-nightly
 command: cosmic-ext-applet-weather
 finish-args:
   - --share=network
@@ -14,7 +14,7 @@ finish-args:
   - --talk-name=org.freedesktop.portal.Desktop
   - --talk-name=org.freedesktop.portal.Location
 build-options:
-  append-path: /usr/lib/sdk/rust-stable/bin
+  append-path: /usr/lib/sdk/rust-nightly/extra/sdk/rust-nightly/bin
   env:
     CARGO_HOME: /run/build/cosmic-ext-applet-weather/cargo
     RUSTFLAGS: -C link-arg=-Wl,-z,relro,-z,now
