@@ -1,23 +1,23 @@
 [package]
 name = "cosmic-ext-applet-weather"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 license = "GPL-3.0"
 authors = ["rwxroot <rwxroot@proton.me>"]
-homepage = "https://github.com/cosmic-utils/cosmic-ext-applet-weather/"
-repository = "https://github.com/cosmic-utils/cosmic-ext-applet-weather.git"
+homepage = "https://github.com/codegod100/weather-applet"
+repository = "https://github.com/codegod100/weather-applet.git"
 
 [profile.release]
 lto = "fat"
 
 [dependencies]
-chrono = { version = "0.4.41",default-features = false }
+chrono = { version = "0.4.41", default-features = false }
 libcosmic = { git = "https://github.com/pop-os/libcosmic", default-features = false, features = [
-	"applet",
+    "applet",
 ] }
 reqwest = { version = "0.12.20", default-features = false, features = [
-	"json",
-	"rustls-tls",
+    "json",
+    "rustls-tls",
 ] }
 serde_json = "1.0"
 serde = "1.0.219"
@@ -26,8 +26,8 @@ urlencoding = "2.1"
 serde_derive = "1.0.219"
 tracing = { version = "0.1.41", default-features = false, features = ["log"] }
 tracing-subscriber = { version = "0.3.19", default-features = false, features = [
-	"ansi",
-	"env-filter",
+    "ansi",
+    "env-filter",
 ] }
 
 [patch."https://github.com/smithay/client-toolkit.git"]
